@@ -86,6 +86,9 @@ $headers = @{ "x-jarvis-key" = "change_me_bridge_key" }
 Invoke-RestMethod -Method GET -Uri "https://<your-service>.onrender.com/api/v1/health" -Headers $headers
 ```
 
+Render native health probe uses:
+- `GET https://<your-service>.onrender.com/healthz` (no auth)
+
 Then update OpenAPI server URL:
 
 ```powershell
@@ -177,8 +180,8 @@ python tools/mongo_bridge_preflight.py
 # Inspect current OpenAPI server URL
 python tools/set_mongo_bridge_server_url.py --inspect
 
-# Set Azure Function URL in OpenAPI (+ optional env var)
-python tools/set_mongo_bridge_server_url.py --url "https://<your-function-app>.azurewebsites.net" --update-env
+# Set bridge URL in OpenAPI (+ optional env var)
+python tools/set_mongo_bridge_server_url.py --url "https://<your-bridge-host>" --update-env
 ```
 
 ### H) Diagnose Mongo TLS/DNS connectivity issues

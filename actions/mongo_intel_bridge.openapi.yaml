@@ -10,7 +10,7 @@ info:
     3) POST complete with result JSON
 
 servers:
-  - url: https://YOUR_AZURE_FUNCTION_HOST
+  - url: https://jarvis-mongo-bridge.onrender.com
 
 components:
   securitySchemes:
