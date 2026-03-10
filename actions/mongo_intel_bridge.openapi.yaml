@@ -267,12 +267,22 @@ paths:
           application/json:
             schema:
               type: object
+              additionalProperties: true
               properties:
                 job_id:
                   type: string
                 result:
-                  type: object
-                  additionalProperties: true
+                  description: Final JSON payload for this job. Object is preferred.
+                  oneOf:
+                    - type: object
+                      additionalProperties: true
+                    - type: array
+                      items: {}
+                    - type: string
+                    - type: number
+                    - type: integer
+                    - type: boolean
+                    - type: "null"
                 source:
                   type: string
                 notes:

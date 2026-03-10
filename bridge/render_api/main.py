@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import json
 import os
 from datetime import datetime, timedelta, timezone
 from functools import lru_cache
 from typing import Any, Dict
 
 from bson import ObjectId
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import Body, Depends, FastAPI, Header, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from pymongo import ASCENDING, MongoClient, ReturnDocument
@@ -136,11 +137,31 @@ class FailJobInlineBody(BaseModel):
     details: Dict[str, Any] = Field(default_factory=dict)
 
 
+def _coerce_result_object(value: Any) -> Dict[str, Any]:
+    # Accept tolerant result payloads from Actions runtime and normalize to object.
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, str):
+        text = value.strip()
+        if text:
+            try:
+                parsed = json.loads(text)
+                if isinstance(parsed, dict):
+                    return parsed
+                return {"raw_result": parsed}
+            except Exception:
+                return {"raw_result": text}
+    return {"raw_result": value}
+
+
 def _complete_job_internal(raw_job_id: str, result_obj: Dict[str, Any], source: str, notes: str) -> JSONResponse:
     if not raw_job_id:
         return _err("job_id is required", status_code=400)
 
-    obj_id = ObjectId(raw_job_id)
+    try:
+        obj_id = ObjectId(raw_job_id)
+    except Exception:
+        return _err("invalid job_id", status_code=400)
     job = _jobs().find_one({"_id": obj_id})
     if not job:
         return _err("job not found", status_code=404)
@@ -189,7 +210,10 @@ def _fail_job_internal(raw_job_id: str, error_message: str, details: Dict[str, A
     payload = dict(details or {})
     now = _utc_now()
 
-    obj_id = ObjectId(raw_job_id)
+    try:
+        obj_id = ObjectId(raw_job_id)
+    except Exception:
+        return _err("invalid job_id", status_code=400)
     result = _jobs().update_one(
         {"_id": obj_id},
         {
@@ -274,7 +298,21 @@ def next_job(project_id: str = "", lock_for_seconds: int = 900, _: None = Depend
         lock_for = max(60, int(lock_for_seconds or _int_env("JARVIS_BRIDGE_JOB_LOCK_SECONDS", 900)))
         lock_expires = now + timedelta(seconds=lock_for)
 
-        query = {"project_id": project_id, "$or": [{"status": "queued"}, {"status": "new"}]}
+        query = {
+            "project_id": project_id,
+            "$or": [
+                {"status": "queued"},
+                {"status": "new"},
+                {
+                    "status": "processing",
+                    "$or": [
+                        {"lock_expires_at": {"$lte": now}},
+                        {"lock_expires_at": {"$exists": False}},
+                        {"lock_expires_at": None},
+                    ],
+                },
+            ],
+        }
         update = {
             "$set": {
                 "status": "processing",
@@ -308,13 +346,20 @@ def complete_job(job_id: str, body: CompleteJobBody, _: None = Depends(_require_
 
 
 @app.post("/api/v1/jobs/complete")
-def complete_job_inline(body: CompleteJobInlineBody, _: None = Depends(_require_api_key)) -> JSONResponse:
+def complete_job_inline(body: Dict[str, Any] = Body(default_factory=dict), _: None = Depends(_require_api_key)) -> JSONResponse:
     try:
+        if not isinstance(body, dict):
+            return _err("request body must be a JSON object", status_code=400)
+        raw_job_id = str(body.get("job_id") or "").strip()
+        if not raw_job_id:
+            return _err("job_id is required", status_code=400)
+        if "result" not in body:
+            return _err("result is required", status_code=400)
         return _complete_job_internal(
-            raw_job_id=str(body.job_id or "").strip(),
-            result_obj=dict(body.result or {}),
-            source=str(body.source or "custom_gpt"),
-            notes=str(body.notes or ""),
+            raw_job_id=raw_job_id,
+            result_obj=_coerce_result_object(body.get("result")),
+            source=str(body.get("source") or "custom_gpt"),
+            notes=str(body.get("notes") or ""),
         )
     except Exception as e:
         return _err(f"{type(e).__name__}: {e}", status_code=500)
