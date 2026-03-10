@@ -118,9 +118,93 @@ class CompleteJobBody(BaseModel):
     notes: str = ""
 
 
+class CompleteJobInlineBody(BaseModel):
+    job_id: str
+    result: Dict[str, Any]
+    source: str = "custom_gpt"
+    notes: str = ""
+
+
 class FailJobBody(BaseModel):
     error: str
     details: Dict[str, Any] = Field(default_factory=dict)
+
+
+class FailJobInlineBody(BaseModel):
+    job_id: str
+    error: str
+    details: Dict[str, Any] = Field(default_factory=dict)
+
+
+def _complete_job_internal(raw_job_id: str, result_obj: Dict[str, Any], source: str, notes: str) -> JSONResponse:
+    if not raw_job_id:
+        return _err("job_id is required", status_code=400)
+
+    obj_id = ObjectId(raw_job_id)
+    job = _jobs().find_one({"_id": obj_id})
+    if not job:
+        return _err("job not found", status_code=404)
+
+    now = _utc_now()
+    packet_doc = {
+        "project_id": str(job.get("project_id") or ""),
+        "status": "ready",
+        "source": str(source or "custom_gpt").strip() or "custom_gpt",
+        "job_id": raw_job_id,
+        "packet": dict(result_obj or {}),
+        "imported": False,
+        "meta": {
+            "notes": str(notes or "").strip(),
+            "job_source": str(job.get("source") or ""),
+        },
+        "created_at": now,
+        "updated_at": now,
+    }
+    packet_insert = _packets().insert_one(packet_doc)
+    _jobs().update_one(
+        {"_id": obj_id},
+        {
+            "$set": {
+                "status": "completed",
+                "completed_at": now,
+                "updated_at": now,
+                "result_packet_id": str(packet_insert.inserted_id),
+            }
+        },
+    )
+    return _ok(
+        {
+            "ok": True,
+            "job_id": raw_job_id,
+            "packet_id": str(packet_insert.inserted_id),
+            "status": "completed",
+        }
+    )
+
+
+def _fail_job_internal(raw_job_id: str, error_message: str, details: Dict[str, Any]) -> JSONResponse:
+    if not raw_job_id:
+        return _err("job_id is required", status_code=400)
+    message = str(error_message or "").strip() or "unknown_error"
+    payload = dict(details or {})
+    now = _utc_now()
+
+    obj_id = ObjectId(raw_job_id)
+    result = _jobs().update_one(
+        {"_id": obj_id},
+        {
+            "$set": {
+                "status": "failed",
+                "error": message,
+                "error_details": payload,
+                "failed_at": now,
+                "updated_at": now,
+            }
+        },
+    )
+    if result.matched_count <= 0:
+        return _err("job not found", status_code=404)
+    return _ok({"ok": True, "job_id": raw_job_id, "status": "failed"})
 
 
 @app.get("/api/v1/health")
@@ -213,49 +297,24 @@ def next_job(project_id: str = "", lock_for_seconds: int = 900, _: None = Depend
 @app.post("/api/v1/jobs/{job_id}/complete")
 def complete_job(job_id: str, body: CompleteJobBody, _: None = Depends(_require_api_key)) -> JSONResponse:
     try:
-        raw_job_id = str(job_id or "").strip()
-        if not raw_job_id:
-            return _err("job_id is required", status_code=400)
-
-        obj_id = ObjectId(raw_job_id)
-        job = _jobs().find_one({"_id": obj_id})
-        if not job:
-            return _err("job not found", status_code=404)
-
-        now = _utc_now()
-        packet_doc = {
-            "project_id": str(job.get("project_id") or ""),
-            "status": "ready",
-            "source": str(body.source or "custom_gpt").strip() or "custom_gpt",
-            "job_id": raw_job_id,
-            "packet": dict(body.result or {}),
-            "imported": False,
-            "meta": {
-                "notes": str(body.notes or "").strip(),
-                "job_source": str(job.get("source") or ""),
-            },
-            "created_at": now,
-            "updated_at": now,
-        }
-        packet_insert = _packets().insert_one(packet_doc)
-        _jobs().update_one(
-            {"_id": obj_id},
-            {
-                "$set": {
-                    "status": "completed",
-                    "completed_at": now,
-                    "updated_at": now,
-                    "result_packet_id": str(packet_insert.inserted_id),
-                }
-            },
+        return _complete_job_internal(
+            raw_job_id=str(job_id or "").strip(),
+            result_obj=dict(body.result or {}),
+            source=str(body.source or "custom_gpt"),
+            notes=str(body.notes or ""),
         )
-        return _ok(
-            {
-                "ok": True,
-                "job_id": raw_job_id,
-                "packet_id": str(packet_insert.inserted_id),
-                "status": "completed",
-            }
+    except Exception as e:
+        return _err(f"{type(e).__name__}: {e}", status_code=500)
+
+
+@app.post("/api/v1/jobs/complete")
+def complete_job_inline(body: CompleteJobInlineBody, _: None = Depends(_require_api_key)) -> JSONResponse:
+    try:
+        return _complete_job_internal(
+            raw_job_id=str(body.job_id or "").strip(),
+            result_obj=dict(body.result or {}),
+            source=str(body.source or "custom_gpt"),
+            notes=str(body.notes or ""),
         )
     except Exception as e:
         return _err(f"{type(e).__name__}: {e}", status_code=500)
@@ -264,28 +323,22 @@ def complete_job(job_id: str, body: CompleteJobBody, _: None = Depends(_require_
 @app.post("/api/v1/jobs/{job_id}/fail")
 def fail_job(job_id: str, body: FailJobBody, _: None = Depends(_require_api_key)) -> JSONResponse:
     try:
-        raw_job_id = str(job_id or "").strip()
-        if not raw_job_id:
-            return _err("job_id is required", status_code=400)
-        error_message = str(body.error or "").strip() or "unknown_error"
-        details = dict(body.details or {})
-        now = _utc_now()
-
-        obj_id = ObjectId(raw_job_id)
-        result = _jobs().update_one(
-            {"_id": obj_id},
-            {
-                "$set": {
-                    "status": "failed",
-                    "error": error_message,
-                    "error_details": details,
-                    "failed_at": now,
-                    "updated_at": now,
-                }
-            },
+        return _fail_job_internal(
+            raw_job_id=str(job_id or "").strip(),
+            error_message=str(body.error or ""),
+            details=dict(body.details or {}),
         )
-        if result.matched_count <= 0:
-            return _err("job not found", status_code=404)
-        return _ok({"ok": True, "job_id": raw_job_id, "status": "failed"})
+    except Exception as e:
+        return _err(f"{type(e).__name__}: {e}", status_code=500)
+
+
+@app.post("/api/v1/jobs/fail")
+def fail_job_inline(body: FailJobInlineBody, _: None = Depends(_require_api_key)) -> JSONResponse:
+    try:
+        return _fail_job_internal(
+            raw_job_id=str(body.job_id or "").strip(),
+            error_message=str(body.error or ""),
+            details=dict(body.details or {}),
+        )
     except Exception as e:
         return _err(f"{type(e).__name__}: {e}", status_code=500)

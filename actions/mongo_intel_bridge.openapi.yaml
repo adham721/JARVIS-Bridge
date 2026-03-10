@@ -254,19 +254,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /api/v1/jobs/{job_id}/complete:
+  /api/v1/jobs/complete:
     post:
       operationId: bridge_complete_job
       summary: Complete job and store result packet
       security:
         - jarvis_api_key: []
       x-openai-isConsequential: false
-      parameters:
-        - name: job_id
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -274,6 +268,8 @@ paths:
             schema:
               type: object
               properties:
+                job_id:
+                  type: string
                 result:
                   type: object
                   additionalProperties: true
@@ -281,7 +277,7 @@ paths:
                   type: string
                 notes:
                   type: string
-              required: [result]
+              required: [job_id, result]
       responses:
         "200":
           description: Completion status
@@ -314,19 +310,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /api/v1/jobs/{job_id}/fail:
+  /api/v1/jobs/fail:
     post:
       operationId: bridge_fail_job
       summary: Mark job as failed
       security:
         - jarvis_api_key: []
       x-openai-isConsequential: false
-      parameters:
-        - name: job_id
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -334,12 +324,14 @@ paths:
             schema:
               type: object
               properties:
+                job_id:
+                  type: string
                 error:
                   type: string
                 details:
                   type: object
                   additionalProperties: true
-              required: [error]
+              required: [job_id, error]
       responses:
         "200":
           description: Failure status

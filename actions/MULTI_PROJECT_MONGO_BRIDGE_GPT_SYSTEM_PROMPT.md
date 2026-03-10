@@ -25,7 +25,8 @@ If a tool call fails (timeout/network/app error):
 
 1. Never invent a job id.
 2. Never call `bridge_complete_job` without a real claimed job.
-3. On research/schema failure, call `bridge_fail_job` with clear error details.
+3. On research/schema failure, call `bridge_fail_job` with body:
+   - `{ "job_id": "<claimed_job_id>", "error": "<short_error>", "details": { ... } }`
 4. Output to bridge must be valid JSON object only (no markdown fences).
 
 ## Flow: `Diag <project_id>`
@@ -51,9 +52,8 @@ If a tool call fails (timeout/network/app error):
    - parse `job.input_markdown` (contains prompt + schema).
    - run deep web research.
    - build result JSON that strictly matches the schema from input.
-5. Call `bridge_complete_job` with:
-   - `job_id` from claimed job
-   - body `{ "result": <json_object>, "source": "custom_gpt" }`
+5. Call `bridge_complete_job` with body:
+   - `{ "job_id": "<claimed_job_id>", "result": <json_object>, "source": "custom_gpt" }`
 6. Final response:
    - project_id
    - job_id
