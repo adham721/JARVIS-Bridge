@@ -1,0 +1,65 @@
+{
+    "category": "monetization",
+    "description": "Revenue and profit analysis",
+    "implementation_module": "implementations.monetization_impl",
+    "tools": [
+        {
+            "name": "estimate_revenue",
+            "endpoint": "/monetization/estimate_revenue",
+            "description": "تقدير الإيرادات",
+            "function": "estimate_revenue",
+            "params": {
+                "platform": {"type": "string", "required": true},
+                "metric": {"type": "string", "required": true}
+            }
+        },
+        {
+            "name": "calculate_profit",
+            "endpoint": "/monetization/calculate_profit",
+            "description": "حساب الربح",
+            "function": "calculate_profit",
+            "params": {
+                "revenue": {"type": "number", "required": true},
+                "cost": {"type": "number", "required": true}
+            }
+        },
+        {
+            "name": "royalty_calculator",
+            "endpoint": "/monetization/royalty_calculator",
+            "description": "حساب royalties KDP",
+            "function": "royalty_calculator",
+            "params": {
+                "price": {"type": "number", "required": true},
+                "pages": {"type": "integer", "required": true}
+            }
+        },
+        {
+            "name": "improve_title",
+            "endpoint": "/monetization/improve_title",
+            "description": "تحسين العنوان للسيو",
+            "function": "improve_title",
+            "params": {
+                "title": {"type": "string", "required": true}
+            }
+        },
+        {
+            "name": "generate_description",
+            "endpoint": "/monetization/generate_description",
+            "description": "توليد وصف احترافي",
+            "function": "generate_description",
+            "params": {
+                "title": {"type": "string", "required": true}
+            }
+        },
+        {
+            "name": "optimize_listing",
+            "endpoint": "/monetization/optimize_listing",
+            "description": "تحسين قائمة المنتج",
+            "function": "optimize_listing",
+            "params": {
+                "title": {"type": "string", "required": true},
+                "description": {"type": "string", "required": false}
+            }
+        }
+    ]
+}

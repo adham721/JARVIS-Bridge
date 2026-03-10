@@ -1,0 +1,117 @@
+{
+    "category": "deep_scraping",
+    "description": "Deep scraping tools using scrapetube, instaloader, and pinterest-dl for complete data extraction",
+    "implementation_module": "implementations.spider_impl",
+    "tools": [
+        {
+            "name": "youtube_channel_deep",
+            "endpoint": "/deep/youtube_channel",
+            "description": "Deep scraping of YouTube channel - all videos with metadata",
+            "function": "youtube_channel_deep",
+            "params": {
+                "channel_id": {
+                    "type": "string",
+                    "required": false,
+                    "description": "YouTube channel ID"
+                },
+                "channel_url": {
+                    "type": "string",
+                    "required": false,
+                    "description": "YouTube channel URL"
+                },
+                "limit": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 20
+                }
+            }
+        },
+        {
+            "name": "youtube_search_deep",
+            "endpoint": "/deep/youtube_search",
+            "description": "Deep YouTube search with full video metadata",
+            "function": "youtube_search_deep",
+            "params": {
+                "query": {
+                    "type": "string",
+                    "required": true
+                },
+                "limit": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 20
+                }
+            }
+        },
+        {
+            "name": "instagram_profile_deep",
+            "endpoint": "/deep/instagram_profile",
+            "description": "Deep Instagram profile data - followers, posts, bio",
+            "function": "instagram_profile_deep",
+            "params": {
+                "username": {
+                    "type": "string",
+                    "required": true,
+                    "description": "Instagram username"
+                }
+            }
+        },
+        {
+            "name": "instagram_hashtag_deep",
+            "endpoint": "/deep/instagram_hashtag",
+            "description": "Deep Instagram hashtag posts with engagement data",
+            "function": "instagram_hashtag_deep",
+            "params": {
+                "hashtag": {
+                    "type": "string",
+                    "required": true
+                },
+                "limit": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 20
+                }
+            }
+        },
+        {
+            "name": "pinterest_search_deep",
+            "endpoint": "/deep/pinterest_search",
+            "description": "Deep Pinterest search with pin images and metadata",
+            "function": "pinterest_search_deep",
+            "params": {
+                "query": {
+                    "type": "string",
+                    "required": true
+                },
+                "limit": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 20
+                }
+            }
+        },
+        {
+            "name": "google_trends_deep",
+            "endpoint": "/deep/google_trends",
+            "description": "Deep Google Trends with interest over time and related queries",
+            "function": "google_trends_deep",
+            "params": {
+                "keywords": {
+                    "type": "string",
+                    "required": true,
+                    "description": "Keyword or comma-separated keywords"
+                },
+                "timeframe": {
+                    "type": "string",
+                    "required": false,
+                    "default": "today 3-m"
+                },
+                "geo": {
+                    "type": "string",
+                    "required": false,
+                    "default": ""
+                }
+            }
+        }
+    ]
+}

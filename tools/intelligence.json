@@ -1,0 +1,134 @@
+{
+    "category": "intelligence",
+    "description": "Product and content research intelligence tools",
+    "implementation_module": "implementations.intelligence_impl",
+    "tools": [
+        {
+            "name": "find_trending_products",
+            "endpoint": "/intelligence/find_trending_products",
+            "description": "إيجاد المنتجات الترندينج",
+            "function": "find_trending_products",
+            "params": {
+                "platform": {
+                    "type": "string",
+                    "required": true
+                },
+                "category": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "analyze_product_demand",
+            "endpoint": "/intelligence/analyze_product_demand",
+            "description": "تحليل الطلب على منتج",
+            "function": "analyze_product_demand",
+            "params": {
+                "product_keyword": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "find_niche_gaps",
+            "endpoint": "/intelligence/find_niche_gaps",
+            "description": "إيجاد الفجوات في السوق",
+            "function": "find_niche_gaps",
+            "params": {
+                "market": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "analyze_pricing",
+            "endpoint": "/intelligence/analyze_pricing",
+            "description": "تحليل أسعار المنافسين",
+            "function": "analyze_pricing",
+            "params": {
+                "product_url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "find_top_sellers",
+            "endpoint": "/intelligence/find_top_sellers",
+            "description": "إيجاد أفضل البائعين",
+            "function": "find_top_sellers",
+            "params": {
+                "category": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "reverse_engineer",
+            "endpoint": "/intelligence/reverse_engineer",
+            "description": "تحليل المنافسين",
+            "function": "reverse_engineer",
+            "params": {
+                "url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "predict_trend",
+            "endpoint": "/intelligence/predict_trend",
+            "description": "توقع الترند",
+            "function": "predict_trend",
+            "params": {
+                "topic": {
+                    "type": "string",
+                    "required": true
+                },
+                "niche": {
+                    "type": "string",
+                    "required": false,
+                    "default": "general"
+                }
+            }
+        },
+        {
+            "name": "analyze_seasonal_trends",
+            "endpoint": "/intelligence/analyze_seasonal_trends",
+            "description": "تحليل الترندات الموسمية",
+            "function": "analyze_seasonal_trends",
+            "params": {
+                "niche": {
+                    "type": "string",
+                    "required": false,
+                    "default": "general"
+                },
+                "month": {
+                    "type": "integer",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "score_niche",
+            "endpoint": "/intelligence/score_niche",
+            "description": "تقييم جودة الـ Niche",
+            "function": "score_niche",
+            "params": {
+                "niche": {
+                    "type": "string",
+                    "required": true
+                },
+                "market": {
+                    "type": "string",
+                    "required": false,
+                    "default": "general"
+                }
+            }
+        }
+    ]
+}

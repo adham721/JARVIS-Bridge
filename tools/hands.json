@@ -1,0 +1,55 @@
+{
+    "category": "hands",
+    "description": "Download and process media files",
+    "implementation_module": "implementations.hands_impl",
+    "tools": [
+        {
+            "name": "download_video",
+            "endpoint": "/hands/download_video",
+            "description": "تحميل فيديو",
+            "function": "download_video",
+            "params": {
+                "url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "download_image",
+            "endpoint": "/hands/download_image",
+            "description": "تحميل صورة",
+            "function": "download_image",
+            "params": {
+                "url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "video_info",
+            "endpoint": "/hands/video_info",
+            "description": "معلومات الفيديو",
+            "function": "video_info",
+            "params": {
+                "url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "extract_audio",
+            "endpoint": "/hands/extract_audio",
+            "description": "استخراج الصوت",
+            "function": "extract_audio",
+            "params": {
+                "url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        }
+    ]
+}

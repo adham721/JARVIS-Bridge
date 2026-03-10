@@ -1,0 +1,127 @@
+{
+    "category": "advanced_spider",
+    "description": "Advanced web scraping tools for social platforms",
+    "implementation_module": "implementations.advanced_spider_impl",
+    "tools": [
+        {
+            "name": "scrape_tiktok_analytics",
+            "endpoint": "/spider/tiktok_analytics",
+            "description": "تحليلات تيك توك متقدمة",
+            "function": "scrape_tiktok_analytics",
+            "params": {
+                "username": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "scrape_instagram_insights",
+            "endpoint": "/spider/instagram_insights",
+            "description": "رؤى انستجرام",
+            "function": "scrape_instagram_insights",
+            "params": {
+                "username": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "scrape_twitter_engagement",
+            "endpoint": "/spider/twitter_engagement",
+            "description": "تفاعل تويتر",
+            "function": "scrape_twitter_engagement",
+            "params": {
+                "username": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "scrape_linkedin_posts",
+            "endpoint": "/spider/linkedin_posts",
+            "description": "منشورات لينكد إن",
+            "function": "scrape_linkedin_posts",
+            "params": {
+                "query": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "scrape_pinterest_trends",
+            "endpoint": "/spider/pinterest_trends",
+            "description": "ترندات بينترست",
+            "function": "scrape_pinterest_trends",
+            "params": {
+                "category": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "scrape_quora_questions",
+            "endpoint": "/spider/quora_questions",
+            "description": "أسئلة كورا",
+            "function": "scrape_quora_questions",
+            "params": {
+                "topic": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "scrape_medium_articles",
+            "endpoint": "/spider/medium_articles",
+            "description": "مقالات ميديوم",
+            "function": "scrape_medium_articles",
+            "params": {
+                "tag": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "scrape_shopify_products",
+            "endpoint": "/spider/shopify_products",
+            "description": "منتجات Shopify",
+            "function": "scrape_shopify_products",
+            "params": {
+                "store_url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "scrape_aliexpress_deals",
+            "endpoint": "/spider/aliexpress_deals",
+            "description": "عروض AliExpress",
+            "function": "scrape_aliexpress_deals",
+            "params": {
+                "category": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "scrape_facebook_groups",
+            "endpoint": "/spider/facebook_groups",
+            "description": "مجموعات فيسبوك",
+            "function": "scrape_facebook_groups",
+            "params": {
+                "query": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        }
+    ]
+}

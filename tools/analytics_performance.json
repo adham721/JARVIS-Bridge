@@ -1,0 +1,120 @@
+{
+    "category": "analytics_performance",
+    "description": "Analytics, performance tracking and workflow management tools",
+    "implementation_module": "implementations.analytics_performance_impl",
+    "tools": [
+        {
+            "name": "predict_growth",
+            "endpoint": "/analytics/predict_growth",
+            "description": "توقع النمو المستقبلي",
+            "function": "predict_growth",
+            "params": {
+                "current_subscribers": {
+                    "type": "integer",
+                    "required": true
+                },
+                "monthly_growth_rate": {
+                    "type": "number",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "benchmark_comparison",
+            "endpoint": "/analytics/benchmark_comparison",
+            "description": "مقارنة بالمنافسين",
+            "function": "benchmark_comparison",
+            "params": {
+                "your_metrics": {
+                    "type": "object",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "analyze_performance_metrics",
+            "endpoint": "/performance/analyze_metrics",
+            "description": "تحليل مقاييس الأداء",
+            "function": "analyze_performance_metrics",
+            "params": {
+                "metrics": {
+                    "type": "object",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "identify_best_posting_time",
+            "endpoint": "/performance/best_posting_time",
+            "description": "تحديد أفضل وقت للنشر",
+            "function": "identify_best_posting_time",
+            "params": {
+                "platform": {
+                    "type": "string",
+                    "required": true
+                },
+                "timezone": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "calculate_roi",
+            "endpoint": "/performance/calculate_roi",
+            "description": "حساب عائد الاستثمار",
+            "function": "calculate_roi",
+            "params": {
+                "investment": {
+                    "type": "number",
+                    "required": true
+                },
+                "revenue": {
+                    "type": "number",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "track_viral_potential",
+            "endpoint": "/performance/viral_potential",
+            "description": "تتبع إمكانية الانتشار",
+            "function": "track_viral_potential",
+            "params": {
+                "content_url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "workflow_optimizer",
+            "endpoint": "/workflow/optimize",
+            "description": "تحسين سير العمل",
+            "function": "workflow_optimizer",
+            "params": {
+                "current_workflow": {
+                    "type": "array",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "content_calendar_generator",
+            "endpoint": "/workflow/generate_calendar",
+            "description": "توليد تقويم محتوى",
+            "function": "content_calendar_generator",
+            "params": {
+                "frequency": {
+                    "type": "string",
+                    "required": true
+                },
+                "duration_days": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 30
+                }
+            }
+        }
+    ]
+}

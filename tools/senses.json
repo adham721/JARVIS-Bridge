@@ -1,0 +1,128 @@
+{
+    "category": "senses",
+    "description": "Image and media analysis",
+    "implementation_module": "implementations.senses_impl",
+    "tools": [
+        {
+            "name": "analyze_colors",
+            "endpoint": "/senses/analyze_colors",
+            "description": "تحليل ألوان الصورة",
+            "function": "analyze_colors",
+            "params": {
+                "image_url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "image_quality",
+            "endpoint": "/senses/image_quality",
+            "description": "جودة الصورة",
+            "function": "image_quality",
+            "params": {
+                "image_url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "detect_style",
+            "endpoint": "/senses/detect_style",
+            "description": "كشف نمط التصميم",
+            "function": "detect_style",
+            "params": {
+                "image_url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "analyze_thumbnail",
+            "endpoint": "/senses/analyze_thumbnail",
+            "description": "تحليل الصور المصغرة",
+            "function": "analyze_thumbnail",
+            "params": {
+                "image_url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "extract_color_palette",
+            "endpoint": "/senses/extract_color_palette",
+            "description": "استخراج لوحة الألوان",
+            "function": "extract_color_palette",
+            "params": {
+                "image_url": {
+                    "type": "string",
+                    "required": true
+                },
+                "num_colors": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 5
+                }
+            }
+        },
+        {
+            "name": "analyze_voice_tone",
+            "endpoint": "/senses/analyze_voice_tone",
+            "description": "تحليل نبرة الصوت",
+            "function": "analyze_voice_tone",
+            "params": {
+                "audio_url": {
+                    "type": "string",
+                    "required": false
+                },
+                "description": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "analyze_video_length",
+            "endpoint": "/senses/analyze_video_length",
+            "description": "تحليل مدة الفيديو المثالية",
+            "function": "analyze_video_length",
+            "params": {
+                "platform": {
+                    "type": "string",
+                    "required": false,
+                    "default": "youtube"
+                },
+                "content_type": {
+                    "type": "string",
+                    "required": false,
+                    "default": "educational"
+                },
+                "current_length": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 0
+                }
+            }
+        },
+        {
+            "name": "analyze_cover_design",
+            "endpoint": "/senses/analyze_cover_design",
+            "description": "تحليل تصميم الغلاف",
+            "function": "analyze_cover_design",
+            "params": {
+                "image_url": {
+                    "type": "string",
+                    "required": false
+                },
+                "cover_type": {
+                    "type": "string",
+                    "required": false,
+                    "default": "ebook"
+                }
+            }
+        }
+    ]
+}

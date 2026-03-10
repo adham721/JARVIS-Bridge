@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: jarvis-mongo-bridge
+    runtime: python
+    plan: free
+    buildCommand: pip install -r bridge/render_api/requirements.txt
+    startCommand: uvicorn bridge.render_api.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.10
+      - key: JARVIS_MONGO_URI
+        sync: false
+      - key: JARVIS_MONGO_DB
+        value: jarvis_intel
+      - key: JARVIS_MONGO_JOBS_COLLECTION
+        value: intel_jobs
+      - key: JARVIS_MONGO_INTEL_COLLECTION
+        value: intel_packets
+      - key: JARVIS_MONGO_CONNECT_TIMEOUT_MS
+        value: "20000"
+      - key: JARVIS_BRIDGE_JOB_LOCK_SECONDS
+        value: "900"
+      - key: JARVIS_BRIDGE_API_KEY
+        sync: false
+

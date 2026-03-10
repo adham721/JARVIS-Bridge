@@ -1,0 +1,40 @@
+{
+    "category": "trends",
+    "description": "Trending summaries and filters for YouTube (48h filter, views/hour sorting, cookies optional)",
+    "implementation_module": "implementations.youtube_summary_impl",
+    "tools": [
+        {
+            "name": "youtube_summary",
+            "endpoint": "/trends/youtube_summary",
+            "description": "YouTube search/trending with freshness, view thresholds, and scrapetube fallback",
+            "function": "youtube_summary_tool",
+            "params": {
+                "query": { "type": "string", "required": false, "default": "trending" },
+                "country": { "type": "string", "required": false, "default": "US" },
+                "limit": { "type": "integer", "required": false, "default": 20 },
+                "max_age_hours": { "type": "integer", "required": false, "default": 48 },
+                "min_views": { "type": "integer", "required": false, "default": 10000 },
+                "min_views_per_hour": { "type": "integer", "required": false, "default": 200 },
+                "min_duration_seconds": { "type": "integer", "required": false, "default": 60 },
+                "cookies_path": { "type": "string", "required": false, "description": "Path to Netscape YouTube cookies for accuracy" }
+            }
+        },
+        {
+            "name": "youtube_summary_deep",
+            "endpoint": "/trends/youtube_summary_deep",
+            "description": "YouTube summary plus detailed metadata (thumbs, description, tags, counts; optional comments)",
+            "function": "youtube_summary_deep",
+            "params": {
+                "query": { "type": "string", "required": false, "default": "trending" },
+                "country": { "type": "string", "required": false, "default": "US" },
+                "limit": { "type": "integer", "required": false, "default": 5 },
+                "max_age_hours": { "type": "integer", "required": false, "default": 48 },
+                "min_views": { "type": "integer", "required": false, "default": 10000 },
+                "min_views_per_hour": { "type": "integer", "required": false, "default": 200 },
+                "min_duration_seconds": { "type": "integer", "required": false, "default": 60 },
+                "cookies_path": { "type": "string", "required": false },
+                "get_comments": { "type": "boolean", "required": false, "default": false }
+            }
+        }
+    ]
+}

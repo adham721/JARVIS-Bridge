@@ -1,0 +1,26 @@
+# Etsy fallback URLs for platform hardening capture (kids_pod)
+# format: title|url|snippet
+Storytime T-Shirt|https://www.etsy.com/listing/988084384/storytime-t-shirt-storytime-gift|storytime shirt listing
+Read T-Shirt Storytime|https://www.etsy.com/listing/1462605154/read-t-shirt-storytime-shirt-childrens|reading shirt listing
+Read To Me Please Toddler|https://www.etsy.com/listing/1876960375/read-to-me-please-toddler-t-shirt|toddler storytime shirt
+Storytime Is My Cardio|https://www.etsy.com/listing/1577774667/storytime-is-my-cardio-librarian-t-shirt|librarian shirt listing
+Kids T Shirt Search|https://www.etsy.com/search?q=kids+t+shirt|kids shirt search
+Kids Printable Activity Search|https://www.etsy.com/search?q=kids+printable+activity|kids printable search
+Kids Activity Book Search|https://www.etsy.com/search?q=kids+activity+book|activity book search
+Storytime Shirt Search|https://www.etsy.com/search?q=storytime+shirt|storytime shirt search
+Preschool Printable Search|https://www.etsy.com/search?q=preschool+printable|preschool printable search
+Educational Toy Printable Search|https://www.etsy.com/search?q=educational+toy+printable|educational toy printable
+Kids Flashcards Printable Search|https://www.etsy.com/search?q=kids+flashcards+printable|flashcards printable search
+Busy Book Printable Kids Search|https://www.etsy.com/search?q=busy+book+printable+kids|busy book printable
+Kindergarten Worksheet Printable Search|https://www.etsy.com/search?q=kindergarten+worksheet+printable|worksheet printable search
+Kids Coloring Printable Search|https://www.etsy.com/search?q=kids+coloring+book+printable|coloring printable search
+Kids ABC Printable Search|https://www.etsy.com/search?q=kids+abc+printable|abc printable search
+Kids Phonics Worksheet Search|https://www.etsy.com/search?q=kids+phonics+worksheet|phonics worksheet search
+Toddler Busy Book Printable Search|https://www.etsy.com/search?q=toddler+busy+book+printable|toddler busy book printable
+Montessori Printable Activities Search|https://www.etsy.com/search?q=montessori+printable+activities|montessori printable activities
+Kindergarten Tracing Worksheet Search|https://www.etsy.com/search?q=kindergarten+tracing+worksheet+printable|tracing worksheet printable
+Nursery Rhyme Shirt Search|https://www.etsy.com/search?q=nursery+rhyme+shirt+kids|nursery rhyme shirt search
+Kids Bedtime Story Printable Search|https://www.etsy.com/search?q=kids+bedtime+story+printable|bedtime story printable
+Alphabet Flash Cards Printable Search|https://www.etsy.com/search?q=alphabet+flash+cards+printable+kids|alphabet flash cards search
+Kids Reward Chart Printable Search|https://www.etsy.com/search?q=kids+reward+chart+printable|reward chart printable
+Preschool Math Worksheet Printable Search|https://www.etsy.com/search?q=preschool+math+worksheet+printable|preschool math worksheet printable

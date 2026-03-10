@@ -1,0 +1,88 @@
+{
+    "category": "research",
+    "description": "Research tools - Wikipedia, arXiv, GitHub, RSS",
+    "implementation_module": "implementations.research_impl",
+    "tools": [
+        {
+            "name": "wikipedia_search",
+            "endpoint": "/research/wikipedia",
+            "description": "بحث في ويكيبيديا",
+            "function": "wikipedia_search",
+            "params": {
+                "query": {
+                    "type": "string",
+                    "required": true
+                },
+                "language": {
+                    "type": "string",
+                    "required": false,
+                    "default": "en"
+                }
+            }
+        },
+        {
+            "name": "arxiv_search",
+            "endpoint": "/research/arxiv",
+            "description": "بحث في الأبحاث العلمية",
+            "function": "arxiv_search",
+            "params": {
+                "query": {
+                    "type": "string",
+                    "required": true
+                },
+                "max_results": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 5
+                }
+            }
+        },
+        {
+            "name": "github_trending",
+            "endpoint": "/research/github_trending",
+            "description": "تقنيات GitHub الرائجة",
+            "function": "github_trending",
+            "params": {
+                "language": {
+                    "type": "string",
+                    "required": false,
+                    "default": ""
+                },
+                "since": {
+                    "type": "string",
+                    "required": false,
+                    "default": "daily"
+                }
+            }
+        },
+        {
+            "name": "rss_reader",
+            "endpoint": "/research/rss",
+            "description": "قراءة أي RSS feed",
+            "function": "rss_reader",
+            "params": {
+                "url": {
+                    "type": "string",
+                    "required": true
+                },
+                "max_items": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 10
+                }
+            }
+        },
+        {
+            "name": "detect_language_advanced",
+            "endpoint": "/research/detect_language",
+            "description": "كشف اللغة المتقدم",
+            "function": "detect_language_advanced",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        }
+    ]
+}

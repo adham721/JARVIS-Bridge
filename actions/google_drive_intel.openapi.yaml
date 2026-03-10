@@ -1,0 +1,273 @@
+openapi: 3.1.0
+info:
+  title: Google Drive Intel Bridge
+  version: 1.0.0
+  description: |
+    Minimal Google Drive API surface for a "intel_input.md -> intel_result.json" workflow.
+
+    Use this as a Custom GPT Action so the GPT can:
+    - Read the latest intel_input.md from a dedicated Drive folder
+    - Write intel_result.json back into a dedicated Drive folder
+    - Use fixed root folders:
+      OUTBOX_ROOT_FOLDER_ID=1i92W--Rye9E6exlove8eYz8U4GVjZ2Rn
+      INBOX_ROOT_FOLDER_ID=1QcTlXH6Ga0hdc73yElKiXrsjgm8hZqcF
+
+x-jarvis-constants:
+  outbox_root_folder_id: "1i92W--Rye9E6exlove8eYz8U4GVjZ2Rn"
+  inbox_root_folder_id: "1QcTlXH6Ga0hdc73yElKiXrsjgm8hZqcF"
+
+servers:
+  - url: https://www.googleapis.com
+
+components:
+  securitySchemes:
+    google_oauth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://accounts.google.com/o/oauth2/v2/auth
+          tokenUrl: https://oauth2.googleapis.com/token
+          scopes:
+            https://www.googleapis.com/auth/drive: Full Google Drive access (recommended only with a dedicated Drive account)
+
+  schemas:
+    DriveFile:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        mimeType:
+          type: string
+        parents:
+          type: array
+          items:
+            type: string
+        modifiedTime:
+          type: string
+        webViewLink:
+          type: string
+      required: [id, name]
+
+    DriveListResponse:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: "#/components/schemas/DriveFile"
+        nextPageToken:
+          type: string
+      required: [files]
+
+    CreateFileRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        parents:
+          type: array
+          items:
+            type: string
+        mimeType:
+          type: string
+        description:
+          type: string
+      required: [name]
+
+security:
+  - google_oauth:
+      - https://www.googleapis.com/auth/drive
+
+paths:
+  /drive/v3/files:
+    get:
+      operationId: drive_list_files
+      summary: List/search files
+      security:
+        - google_oauth:
+            - https://www.googleapis.com/auth/drive
+      description: |
+        Search files using `q`.
+        Example:
+        q="'<FOLDER_ID>' in parents and name='intel_input.md' and trashed=false"
+        Optional:
+        orderBy="modifiedTime desc", pageSize=1
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: orderBy
+          in: query
+          required: false
+          schema:
+            type: string
+            default: modifiedTime desc
+        - name: fields
+          in: query
+          required: false
+          schema:
+            type: string
+            default: files(id,name,mimeType,parents,modifiedTime,webViewLink)
+        - name: supportsAllDrives
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: includeItemsFromAllDrives
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DriveListResponse"
+
+    post:
+      operationId: drive_create_file_metadata
+      summary: Create file metadata (empty file)
+      security:
+        - google_oauth:
+            - https://www.googleapis.com/auth/drive
+      description: |
+        Creates an empty file entry (metadata only). To upload content, call:
+        PATCH /upload/drive/v3/files/{fileId}?uploadType=media
+      parameters:
+        - name: supportsAllDrives
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+      x-openai-isConsequential: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateFileRequest"
+      responses:
+        "200":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DriveFile"
+
+  /drive/v3/files/{fileId}:
+    get:
+      operationId: drive_get_file
+      summary: Get file metadata or download content
+      security:
+        - google_oauth:
+            - https://www.googleapis.com/auth/drive
+      description: |
+        If you set `alt=media`, Google returns file bytes (the file content).
+        Without `alt`, Google returns metadata JSON.
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 10
+            pattern: "^[A-Za-z0-9_-]{10,}$"
+          description: Google Drive file id. Must come from `drive_list_files`; never use placeholders like ".".
+        - name: alt
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [media]
+        - name: fields
+          in: query
+          required: false
+          schema:
+            type: string
+            default: id,name,mimeType,parents,modifiedTime,webViewLink
+        - name: supportsAllDrives
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DriveFile"
+            text/plain:
+              schema:
+                type: string
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+  /upload/drive/v3/files/{fileId}:
+    patch:
+      operationId: drive_upload_file_content
+      summary: Upload/replace file content (media upload)
+      security:
+        - google_oauth:
+            - https://www.googleapis.com/auth/drive
+      description: |
+        Use `uploadType=media` and provide the full content in the request body.
+        For JSON files, send `application/json` body.
+      x-openai-isConsequential: false
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 10
+            pattern: "^[A-Za-z0-9_-]{10,}$"
+          description: Google Drive file id. Must come from `drive_list_files`; never use placeholders like ".".
+        - name: uploadType
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [media]
+        - name: supportsAllDrives
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+              additionalProperties: true
+          text/plain:
+            schema:
+              type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DriveFile"

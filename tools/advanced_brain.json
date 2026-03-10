@@ -1,0 +1,132 @@
+{
+    "category": "advanced_brain",
+    "description": "Advanced AI analysis and generation tools",
+    "implementation_module": "implementations.advanced_brain_impl",
+    "tools": [
+        {
+            "name": "ai_content_scorer",
+            "endpoint": "/brain/ai_score",
+            "description": "تقييم المحتوى بالذكاء الاصطناعي",
+            "function": "ai_content_scorer",
+            "params": {
+                "content": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "topic_clustering",
+            "endpoint": "/brain/cluster_topics",
+            "description": "تجميع المواضيع المتشابهة",
+            "function": "topic_clustering",
+            "params": {
+                "topics": {
+                    "type": "array",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "content_uniqueness_checker",
+            "endpoint": "/brain/check_uniqueness",
+            "description": "فحص تفرد المحتوى",
+            "function": "content_uniqueness_checker",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "readability_enhancer",
+            "endpoint": "/brain/enhance_readability",
+            "description": "تحسين سهولة القراءة",
+            "function": "readability_enhancer",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "multilanguage_detector",
+            "endpoint": "/brain/detect_language",
+            "description": "كشف اللغة",
+            "function": "multilanguage_detector",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "content_expander",
+            "endpoint": "/brain/expand_content",
+            "description": "توسيع المحتوى",
+            "function": "content_expander",
+            "params": {
+                "short_text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "plagiarism_detector",
+            "endpoint": "/brain/detect_plagiarism",
+            "description": "كشف الانتحال",
+            "function": "plagiarism_detector",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "emotional_tone_analyzer",
+            "endpoint": "/brain/analyze_tone",
+            "description": "تحليل النبرة العاطفية",
+            "function": "emotional_tone_analyzer",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "content_difficulty_scorer",
+            "endpoint": "/brain/difficulty_score",
+            "description": "تقييم صعوبة المحتوى",
+            "function": "content_difficulty_scorer",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "auto_summarizer",
+            "endpoint": "/brain/auto_summarize",
+            "description": "تلخيص تلقائي ذكي",
+            "function": "auto_summarizer",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                },
+                "summary_length": {
+                    "type": "string",
+                    "required": false,
+                    "default": "medium"
+                }
+            }
+        }
+    ]
+}

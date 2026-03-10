@@ -1,0 +1,14 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "JARVIS_BRIDGE_API_KEY": "change_me",
+    "JARVIS_MONGO_URI": "mongodb+srv://<user>:<pass>@<cluster>/<db>?retryWrites=true&w=majority",
+    "JARVIS_MONGO_DB": "jarvis_intel",
+    "JARVIS_MONGO_JOBS_COLLECTION": "intel_jobs",
+    "JARVIS_MONGO_INTEL_COLLECTION": "intel_packets",
+    "JARVIS_MONGO_CONNECT_TIMEOUT_MS": "6000",
+    "JARVIS_BRIDGE_JOB_LOCK_SECONDS": "900"
+  }
+}

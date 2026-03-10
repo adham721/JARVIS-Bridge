@@ -1,0 +1,286 @@
+{
+    "category": "spider",
+    "description": "Web scraping tools for content and e-commerce research",
+    "implementation_module": "implementations.spider_impl",
+    "tools": [
+        {
+            "name": "scrape_youtube_trending",
+            "endpoint": "/spider/scrape_youtube_trending",
+            "description": "جمع trending videos من YouTube",
+            "function": "scrape_youtube_trending",
+            "params": {
+                "category": {
+                    "type": "string",
+                    "required": false,
+                    "default": "all"
+                },
+                "count": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 20
+                },
+                "country": {
+                    "type": "string",
+                    "required": false,
+                    "default": "US"
+                }
+            }
+        },
+        {
+            "name": "scrape_redbubble_designs",
+            "endpoint": "/spider/scrape_redbubble_designs",
+            "description": "جمع trending designs من RedBubble",
+            "function": "scrape_redbubble_designs",
+            "params": {
+                "query": {
+                    "type": "string",
+                    "required": true
+                },
+                "count": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 20
+                }
+            }
+        },
+        {
+            "name": "scrape_etsy_products",
+            "endpoint": "/spider/scrape_etsy_products",
+            "description": "جمع منتجات من Etsy",
+            "function": "scrape_etsy_products",
+            "params": {
+                "query": {
+                    "type": "string",
+                    "required": true
+                },
+                "count": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 20
+                }
+            }
+        },
+        {
+            "name": "scrape_amazon_kdp",
+            "endpoint": "/spider/scrape_amazon_kdp",
+            "description": "جمع bestsellers من Amazon KDP",
+            "function": "scrape_amazon_kdp",
+            "params": {
+                "category": {
+                    "type": "string",
+                    "required": true
+                },
+                "count": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 20
+                }
+            }
+        },
+        {
+            "name": "scrape_google_trends",
+            "endpoint": "/spider/scrape_google_trends",
+            "description": "جمع trending topics من Google",
+            "function": "scrape_google_trends",
+            "params": {
+                "country": {
+                    "type": "string",
+                    "required": false,
+                    "default": "US"
+                }
+            }
+        },
+        {
+            "name": "scrape_reddit_trends",
+            "endpoint": "/spider/scrape_reddit_trends",
+            "description": "جمع trending posts من Reddit",
+            "function": "scrape_reddit_trends",
+            "params": {
+                "subreddit": {
+                    "type": "string",
+                    "required": false,
+                    "default": "all"
+                },
+                "query": {
+                    "type": "string",
+                    "required": false
+                },
+                "limit": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 20
+                }
+            }
+        },
+        {
+            "name": "scrape_quora_questions",
+            "endpoint": "/spider/scrape_quora_questions",
+            "description": "جمع أسئلة شائعة من Quora",
+            "function": "scrape_quora_questions",
+            "params": {
+                "topic": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "scrape_goodreads_books",
+            "endpoint": "/spider/scrape_goodreads_books",
+            "description": "جمع كتب شائعة من Goodreads",
+            "function": "scrape_goodreads_books",
+            "params": {
+                "genre": {
+                    "type": "string",
+                    "required": false,
+                    "default": "fiction"
+                }
+            }
+        },
+        {
+            "name": "scrape_medium_articles",
+            "endpoint": "/spider/scrape_medium_articles",
+            "description": "جمع مقالات trending من Medium",
+            "function": "scrape_medium_articles",
+            "params": {
+                "topic": {
+                    "type": "string",
+                    "required": false,
+                    "default": "technology"
+                }
+            }
+        },
+        {
+            "name": "scrape_trustpilot_reviews",
+            "endpoint": "/spider/scrape_trustpilot_reviews",
+            "description": "جمع reviews من Trustpilot",
+            "function": "scrape_trustpilot_reviews",
+            "params": {
+                "company": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "tiktok_analytics",
+            "endpoint": "/spider/tiktok_analytics",
+            "description": "TikTok analytics - user/hashtag data",
+            "function": "tiktok_analytics",
+            "params": {
+                "username": {
+                    "type": "string",
+                    "required": false
+                },
+                "hashtag": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "instagram_insights",
+            "endpoint": "/spider/instagram_insights",
+            "description": "Instagram insights - posts and engagement",
+            "function": "instagram_insights",
+            "params": {
+                "username": {
+                    "type": "string",
+                    "required": false
+                },
+                "hashtag": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "twitter_engagement",
+            "endpoint": "/spider/twitter_engagement",
+            "description": "Twitter/X engagement - tweets and analytics",
+            "function": "twitter_engagement",
+            "params": {
+                "username": {
+                    "type": "string",
+                    "required": false
+                },
+                "query": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "linkedin_posts",
+            "endpoint": "/spider/linkedin_posts",
+            "description": "LinkedIn professional posts",
+            "function": "linkedin_posts",
+            "params": {
+                "query": {
+                    "type": "string",
+                    "required": false,
+                    "default": "business"
+                }
+            }
+        },
+        {
+            "name": "pinterest_trends",
+            "endpoint": "/spider/pinterest_trends",
+            "description": "Pinterest trending pins and ideas",
+            "function": "pinterest_trends",
+            "params": {
+                "category": {
+                    "type": "string",
+                    "required": false,
+                    "default": "home"
+                },
+                "query": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "shopify_products",
+            "endpoint": "/spider/shopify_products",
+            "description": "Shopify store products",
+            "function": "shopify_products",
+            "params": {
+                "store_url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "aliexpress_deals",
+            "endpoint": "/spider/aliexpress_deals",
+            "description": "AliExpress deals and products",
+            "function": "aliexpress_deals",
+            "params": {
+                "category": {
+                    "type": "string",
+                    "required": false,
+                    "default": "electronics"
+                },
+                "query": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "facebook_groups",
+            "endpoint": "/spider/facebook_groups",
+            "description": "Facebook groups finder",
+            "function": "facebook_groups",
+            "params": {
+                "query": {
+                    "type": "string",
+                    "required": false,
+                    "default": "business"
+                }
+            }
+        }
+    ]
+}

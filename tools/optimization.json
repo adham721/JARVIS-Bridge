@@ -1,0 +1,47 @@
+{
+    "category": "optimization",
+    "description": "Content optimization tools",
+    "implementation_module": "implementations.optimization_impl",
+    "tools": [
+        {
+            "name": "improve_title",
+            "endpoint": "/optimization/improve_title",
+            "description": "تحسين العنوان",
+            "function": "improve_title",
+            "params": {
+                "title": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "generate_description",
+            "endpoint": "/optimization/generate_description",
+            "description": "توليد وصف محسن",
+            "function": "generate_description",
+            "params": {
+                "title": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "optimize_listing",
+            "endpoint": "/optimization/optimize_listing",
+            "description": "تحسين قائمة المنتج",
+            "function": "optimize_listing",
+            "params": {
+                "title": {
+                    "type": "string",
+                    "required": true
+                },
+                "description": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        }
+    ]
+}

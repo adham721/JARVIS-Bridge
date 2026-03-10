@@ -1,0 +1,141 @@
+{
+    "category": "competitor",
+    "description": "Competitor analysis tools",
+    "implementation_module": "implementations.competitor_impl",
+    "tools": [
+        {
+            "name": "analyze_pricing",
+            "endpoint": "/competitor/analyze_pricing",
+            "description": "تحليل استراتيجية السعر",
+            "function": "analyze_pricing",
+            "params": {
+                "product_url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "find_top_sellers",
+            "endpoint": "/competitor/find_top_sellers",
+            "description": "إيجاد الأكثر مبيعاً",
+            "function": "find_top_sellers",
+            "params": {
+                "category": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "reverse_engineer",
+            "endpoint": "/competitor/reverse_engineer",
+            "description": "هندسة عكسية للنجاح",
+            "function": "reverse_engineer",
+            "params": {
+                "url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "track_channel_growth",
+            "endpoint": "/competitor/track_channel_growth",
+            "description": "تتبع نمو قناة يوتيوب",
+            "function": "track_channel_growth",
+            "params": {
+                "channel_url": {
+                    "type": "string",
+                    "required": false
+                },
+                "channel_name": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "analyze_posting_schedule",
+            "endpoint": "/competitor/analyze_posting_schedule",
+            "description": "تحليل جدول النشر",
+            "function": "analyze_posting_schedule",
+            "params": {
+                "channel_url": {
+                    "type": "string",
+                    "required": false
+                },
+                "videos": {
+                    "type": "array",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "calculate_engagement_rate",
+            "endpoint": "/competitor/calculate_engagement_rate",
+            "description": "حساب معدل التفاعل",
+            "function": "calculate_engagement_rate",
+            "params": {
+                "views": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 0
+                },
+                "likes": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 0
+                },
+                "comments": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 0
+                },
+                "shares": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 0
+                },
+                "followers": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 0
+                }
+            }
+        },
+        {
+            "name": "find_content_gaps",
+            "endpoint": "/competitor/find_content_gaps",
+            "description": "اكتشاف الفجوات في المحتوى",
+            "function": "find_content_gaps",
+            "params": {
+                "niche": {
+                    "type": "string",
+                    "required": true
+                },
+                "competitor_topics": {
+                    "type": "array",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "analyze_price_points",
+            "endpoint": "/competitor/analyze_price_points",
+            "description": "تحليل نقاط السعر",
+            "function": "analyze_price_points",
+            "params": {
+                "prices": {
+                    "type": "array",
+                    "required": false
+                },
+                "product_type": {
+                    "type": "string",
+                    "required": false,
+                    "default": "digital"
+                }
+            }
+        }
+    ]
+}

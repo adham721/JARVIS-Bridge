@@ -1,0 +1,186 @@
+{
+    "category": "content_advanced",
+    "description": "Advanced content creation, validation, research and SEO tools",
+    "implementation_module": "implementations.content_advanced_impl",
+    "tools": [
+        {
+            "name": "validate_idea",
+            "endpoint": "/content/validate_idea",
+            "description": "التحقق من صلاحية فكرة المحتوى",
+            "function": "validate_idea",
+            "params": {
+                "idea": {
+                    "type": "string",
+                    "required": true
+                },
+                "target_audience": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "calculate_engagement_score",
+            "endpoint": "/content/calculate_engagement",
+            "description": "حساب معدل التفاعل المتوقع",
+            "function": "calculate_engagement_score",
+            "params": {
+                "views": {
+                    "type": "integer",
+                    "required": true
+                },
+                "likes": {
+                    "type": "integer",
+                    "required": true
+                },
+                "comments": {
+                    "type": "integer",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "predict_trend_longevity",
+            "endpoint": "/content/predict_trend_longevity",
+            "description": "توقع مدة بقاء الترند",
+            "function": "predict_trend_longevity",
+            "params": {
+                "trend": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "find_related_topics",
+            "endpoint": "/content/find_related_topics",
+            "description": "إيجاد مواضيع ذات صلة",
+            "function": "find_related_topics",
+            "params": {
+                "topic": {
+                    "type": "string",
+                    "required": true
+                },
+                "count": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 5
+                }
+            }
+        },
+        {
+            "name": "question_generator",
+            "endpoint": "/content/generate_questions",
+            "description": "توليد أسئلة من موضوع",
+            "function": "question_generator",
+            "params": {
+                "topic": {
+                    "type": "string",
+                    "required": true
+                },
+                "count": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 5
+                }
+            }
+        },
+        {
+            "name": "find_keywords",
+            "endpoint": "/content/find_keywords",
+            "description": "إيجاد كلمات مفتاحية",
+            "function": "find_keywords",
+            "params": {
+                "topic": {
+                    "type": "string",
+                    "required": true
+                },
+                "intent": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "generate_script_outline",
+            "endpoint": "/content/generate_script",
+            "description": "توليد مخطط السكريبت",
+            "function": "generate_script_outline",
+            "params": {
+                "topic": {
+                    "type": "string",
+                    "required": true
+                },
+                "duration_minutes": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 10
+                }
+            }
+        },
+        {
+            "name": "generate_hook",
+            "endpoint": "/content/generate_hook",
+            "description": "توليد hook جذاب",
+            "function": "generate_hook",
+            "params": {
+                "topic": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "generate_cta",
+            "endpoint": "/content/generate_cta",
+            "description": "توليد call-to-action",
+            "function": "generate_cta",
+            "params": {
+                "goal": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "generate_product_description",
+            "endpoint": "/content/generate_product_description",
+            "description": "توليد وصف منتج محسّن",
+            "function": "generate_product_description",
+            "params": {
+                "product_name": {
+                    "type": "string",
+                    "required": true
+                },
+                "features": {
+                    "type": "array",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "keyword_cluster_builder",
+            "endpoint": "/content/build_keyword_cluster",
+            "description": "بناء مجموعة كلمات مفتاحية",
+            "function": "keyword_cluster_builder",
+            "params": {
+                "main_keyword": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "build_backlinks_strategy",
+            "endpoint": "/content/backlinks_strategy",
+            "description": "استراتيجية بناء backlinks",
+            "function": "build_backlinks_strategy",
+            "params": {
+                "niche": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,208 @@
+openapi: 3.1.0
+info:
+  title: JARVIS Mongo Intel Bridge API
+  version: 1.0.0
+  description: |
+    Bridge API between Custom GPT and MongoDB-backed JARVIS queue.
+    Typical flow:
+    1) GET next queued job for a project
+    2) Run research
+    3) POST complete with result JSON
+
+servers:
+  - url: https://YOUR_AZURE_FUNCTION_HOST
+
+components:
+  securitySchemes:
+    jarvis_api_key:
+      type: apiKey
+      in: header
+      name: x-jarvis-key
+  schemas:
+    Job:
+      type: object
+      properties:
+        job_id:
+          type: string
+        project_id:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        claimed_at:
+          type: string
+          nullable: true
+        lock_expires_at:
+          type: string
+          nullable: true
+        input_markdown:
+          type: string
+        meta:
+          type: object
+          additionalProperties: true
+      required: [job_id, project_id, status, input_markdown]
+
+security:
+  - jarvis_api_key: []
+
+paths:
+  /api/v1/health:
+    get:
+      operationId: bridge_health
+      summary: Health check
+      security:
+        - jarvis_api_key: []
+      responses:
+        "200":
+          description: Service health
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+
+  /api/v1/jobs/create:
+    post:
+      operationId: bridge_create_job
+      summary: Create new intel research job
+      security:
+        - jarvis_api_key: []
+      x-openai-isConsequential: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type: string
+                input_markdown:
+                  type: string
+                source:
+                  type: string
+                meta:
+                  type: object
+                  additionalProperties: true
+              required: [project_id, input_markdown]
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+
+  /api/v1/jobs/next:
+    get:
+      operationId: bridge_get_next_job
+      summary: Claim next queued job for project
+      security:
+        - jarvis_api_key: []
+      parameters:
+        - name: project_id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: lock_for_seconds
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 900
+      responses:
+        "200":
+          description: Job payload (or null if queue empty)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  project_id:
+                    type: string
+                  job:
+                    oneOf:
+                      - $ref: "#/components/schemas/Job"
+                      - type: "null"
+                required: [ok, project_id, job]
+
+  /api/v1/jobs/{job_id}/complete:
+    post:
+      operationId: bridge_complete_job
+      summary: Complete job and store result packet
+      security:
+        - jarvis_api_key: []
+      x-openai-isConsequential: false
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  additionalProperties: true
+                source:
+                  type: string
+                notes:
+                  type: string
+              required: [result]
+      responses:
+        "200":
+          description: Completion status
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+
+  /api/v1/jobs/{job_id}/fail:
+    post:
+      operationId: bridge_fail_job
+      summary: Mark job as failed
+      security:
+        - jarvis_api_key: []
+      x-openai-isConsequential: false
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                details:
+                  type: object
+                  additionalProperties: true
+              required: [error]
+      responses:
+        "200":
+          description: Failure status
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true

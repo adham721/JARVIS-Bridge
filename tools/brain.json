@@ -1,0 +1,248 @@
+{
+    "category": "brain",
+    "description": "Content analysis and generation tools",
+    "implementation_module": "implementations.brain_impl",
+    "tools": [
+        {
+            "name": "analyze_content",
+            "endpoint": "/brain/analyze_content",
+            "description": "تحليل محتوى شامل",
+            "function": "analyze_content",
+            "params": {
+                "url": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "extract_keywords",
+            "endpoint": "/brain/extract_keywords",
+            "description": "استخراج الكلمات المفتاحية",
+            "function": "extract_keywords",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "generate_tags",
+            "endpoint": "/brain/generate_tags",
+            "description": "توليد tags",
+            "function": "generate_tags",
+            "params": {
+                "title": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "sentiment_analysis",
+            "endpoint": "/brain/sentiment_analysis",
+            "description": "تحليل المشاعر",
+            "function": "sentiment_analysis",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "summarize_text",
+            "endpoint": "/brain/summarize_text",
+            "description": "تلخيص النص",
+            "function": "summarize_text",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "analyze_title",
+            "endpoint": "/brain/analyze_title",
+            "description": "تحليل جودة العنوان وقابليته للانتشار",
+            "function": "analyze_title",
+            "params": {
+                "title": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "analyze_hook",
+            "endpoint": "/brain/analyze_hook",
+            "description": "تحليل جودة البداية/الـ Hook",
+            "function": "analyze_hook",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "calculate_readability",
+            "endpoint": "/brain/calculate_readability",
+            "description": "حساب صعوبة القراءة",
+            "function": "calculate_readability",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "cluster_topics",
+            "endpoint": "/brain/cluster_topics",
+            "description": "تجميع المواضيع المترابطة",
+            "function": "cluster_topics",
+            "params": {
+                "keywords": {
+                    "type": "array",
+                    "required": false
+                },
+                "text": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "analyze_keyword_density",
+            "endpoint": "/brain/analyze_keyword_density",
+            "description": "تحليل كثافة الكلمات المفتاحية",
+            "function": "analyze_keyword_density",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                },
+                "keywords": {
+                    "type": "array",
+                    "required": false
+                }
+            }
+        },
+        {
+            "name": "ai_score",
+            "endpoint": "/brain/ai_score",
+            "description": "AI content quality scoring",
+            "function": "ai_score",
+            "params": {
+                "content": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "check_uniqueness",
+            "endpoint": "/brain/check_uniqueness",
+            "description": "Check text uniqueness",
+            "function": "check_uniqueness",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "enhance_readability",
+            "endpoint": "/brain/enhance_readability",
+            "description": "Suggest readability improvements",
+            "function": "enhance_readability",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "detect_language",
+            "endpoint": "/brain/detect_language",
+            "description": "Detect text language",
+            "function": "detect_language",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "expand_content",
+            "endpoint": "/brain/expand_content",
+            "description": "Content expansion suggestions",
+            "function": "expand_content",
+            "params": {
+                "short_text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "detect_plagiarism",
+            "endpoint": "/brain/detect_plagiarism",
+            "description": "Simple plagiarism check",
+            "function": "detect_plagiarism",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "analyze_tone",
+            "endpoint": "/brain/analyze_tone",
+            "description": "Analyze emotional tone",
+            "function": "analyze_tone",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "difficulty_score",
+            "endpoint": "/brain/difficulty_score",
+            "description": "Rate text difficulty",
+            "function": "difficulty_score",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "auto_summarize",
+            "endpoint": "/brain/auto_summarize",
+            "description": "Auto summarize text",
+            "function": "auto_summarize",
+            "params": {
+                "text": {
+                    "type": "string",
+                    "required": true
+                },
+                "sentences": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 3
+                }
+            }
+        }
+    ]
+}

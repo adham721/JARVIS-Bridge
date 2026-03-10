@@ -1,0 +1,22 @@
+# TikTok fallback URLs for platform hardening capture (kids_pod)
+# format: title|url|snippet
+TikTok Creative Center Nursery Rhymes|https://ads.tiktok.com/business/creativecenter/hashtag/nurseryrhymes/pad/en|kids songs trend hashtag
+TikTok Creative Center Unboxing Toys|https://ads.tiktok.com/business/creativecenter/hashtag/unboxingtoys/pad/en|toy unboxing trend hashtag
+TikTok Creative Center Kids Song|https://ads.tiktok.com/business/creativecenter/hashtag/kidssong/pad/en|kids song trend hashtag
+TikTok Creative Center Storytime|https://ads.tiktok.com/business/creativecenter/hashtag/storytime/pad/en|storytelling trend hashtag
+TikTok Creative Center Bedtime Story|https://ads.tiktok.com/business/creativecenter/hashtag/bedtimestory/pad/en|bedtime story trend hashtag
+TikTok Creative Center Kids Books|https://ads.tiktok.com/business/creativecenter/hashtag/kidsbooks/pad/en|kids books hashtag trend
+TikTok Creative Center Toys For Kids|https://ads.tiktok.com/business/creativecenter/hashtag/toysforkids/pad/en|toys for kids trend hashtag
+TikTok Discover Kids Activities|https://www.tiktok.com/discover/kids-activities|discover feed kids activities
+TikTok Discover Educational Videos|https://www.tiktok.com/discover/فيديوهات-تعليمية-للاطفال|arabic educational videos discover
+TikTok Discover Kids Songs Arabic|https://www.tiktok.com/discover/اغاني-اطفال|arabic kids songs discover
+TikTok Profile Family Songs|https://www.tiktok.com/@osratounatv|children songs account example
+TikTok Shop POD Leggings|https://shop.tiktok.com/us/k/print-on-demand-leggings|pod apparel keyword page
+TikTok Shop POD Stockings|https://shop.tiktok.com/us/k/print-on-demand-christmas-stockings|pod product keyword page
+TikTok Shop Coloring Book Keyword|https://shop.tiktok.com/us/k/coloring-book-abstract|coloring book keyword page
+TikTok Shop Coloring Pattern Keyword|https://shop.tiktok.com/us/k/satisfying-patterns-coloring-book-bricks?p=1729555901777285784&i=4|coloring book keyword example
+TikTok Shop Animal Coloring Product|https://shop.tiktok.com/us/pdp/animal-coloring-books-unique-designs-creative-haven/1731093522777870825|product page example
+TikTok Shop Kids T-Shirt Product|https://shop.tiktok.com/us/pdp/unisex-kids-t-shirt-cartoon-graphic-soft-cotton-casual/1732123182680347050|kids tshirt pod product page
+TikTok Shop Kids T-Shirt Keyword|https://shop.tiktok.com/us/k/godzilla-t-shirt-for-kids|kids tshirt keyword page
+TikTok Shop Product PH|https://shop.tiktok.com/ph/pdp/1734134798040466462|regional product page sample
+TikTok Seller University POD|https://seller-us.tiktok.com/university/essay?knowledge_id=2211568641328939|seller university pod content

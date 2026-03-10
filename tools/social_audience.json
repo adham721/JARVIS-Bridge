@@ -1,0 +1,84 @@
+{
+    "category": "social_audience",
+    "description": "Social media management and audience targeting tools",
+    "implementation_module": "implementations.social_audience_impl",
+    "tools": [
+        {
+            "name": "analyze_social_trends",
+            "endpoint": "/social/analyze_trends",
+            "description": "تحليل ترندات السوشيال ميديا",
+            "function": "analyze_social_trends",
+            "params": {
+                "platform": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "hashtag_generator",
+            "endpoint": "/social/generate_hashtags",
+            "description": "توليد هاشتاجات",
+            "function": "hashtag_generator",
+            "params": {
+                "topic": {
+                    "type": "string",
+                    "required": true
+                },
+                "count": {
+                    "type": "integer",
+                    "required": false,
+                    "default": 10
+                }
+            }
+        },
+        {
+            "name": "audience_segmentation",
+            "endpoint": "/audience/segment",
+            "description": "تقسيم الجمهور",
+            "function": "audience_segmentation",
+            "params": {
+                "total_audience": {
+                    "type": "integer",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "influencer_finder",
+            "endpoint": "/audience/find_influencers",
+            "description": "إيجاد المؤثرين",
+            "function": "influencer_finder",
+            "params": {
+                "niche": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "engagement_booster",
+            "endpoint": "/social/boost_engagement",
+            "description": "تحسين التفاعل",
+            "function": "engagement_booster",
+            "params": {
+                "current_rate": {
+                    "type": "number",
+                    "required": true
+                }
+            }
+        },
+        {
+            "name": "viral_formula_analyzer",
+            "endpoint": "/social/viral_formula",
+            "description": "تحليل معادلة الانتشار",
+            "function": "viral_formula_analyzer",
+            "params": {
+                "content_type": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        }
+    ]
+}

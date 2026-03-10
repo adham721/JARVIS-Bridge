@@ -1,0 +1,22 @@
+# Facebook fallback URLs for platform hardening capture (kids_pod)
+# format: title|url|snippet
+Kids Belarabi Page|https://www.facebook.com/kidsbelarabi/|kids content page example
+Karameesh Post Kids Songs|https://www.facebook.com/karameeshgroup/posts/754168850084453/|kids songs post example
+KidsTales Video Post|https://www.facebook.com/61575120764791/videos/4406654572935663/|kids tales video example
+Printlet Egypt Page|https://www.facebook.com/printleteg/|pod page example
+Print On Demand Group|https://www.facebook.com/groups/print.on.demand.group.fb/|pod community group
+POD Group Post Example|https://www.facebook.com/groups/936868560719999/posts/1247553809651471/|pod group post sample
+Coloring Books Group|https://www.facebook.com/groups/ColoringBooksForAdults/|coloring books community
+Coloring Books Group Post|https://www.facebook.com/groups/ColoringBooksForAdults/posts/4317949138486005/|coloring post sample
+Al Mashriq Coloring Books Page|https://www.facebook.com/al.mashriq.coloring.books/|coloring brand page
+Commerce Product Example|https://www.facebook.com/commerce/products/3240374542728489/|facebook commerce product sample
+Designer Group Post|https://www.facebook.com/groups/bedesigner/posts/30481224021524139/|design community post sample
+Kids Tshirt Team Post|https://www.facebook.com/WhitehavenRLFC2010/posts/1466508048815411/|kids tshirt post sample
+Meta Business Help Children Policy|https://www.facebook.com/business/help/643305581454561|children policy compliance
+Meta Business Help Reels Copyright|https://www.facebook.com/business/help/173034088905071|reels copyright checks
+Facebook Reels Surface|https://www.facebook.com/reel/|reels surface entry
+Facebook Watch Surface|https://www.facebook.com/watch/|watch surface entry
+Facebook Gaming Videos Surface|https://www.facebook.com/gaming/videos/|video surface sample
+Meta Business Suite Help|https://www.facebook.com/business/help|business help index
+Facebook Marketplace Surface|https://www.facebook.com/marketplace/|marketplace surface sample
+Facebook Groups Surface|https://www.facebook.com/groups/|groups surface sample
