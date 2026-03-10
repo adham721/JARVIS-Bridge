@@ -138,6 +138,12 @@ def healthz() -> JSONResponse:
     return _ok({"ok": True, "service": "jarvis-bridge", "time": _iso(_utc_now())}, status_code=200)
 
 
+@app.get("/api/v1/healthz")
+def api_healthz() -> JSONResponse:
+    # Unauthenticated lightweight health endpoint for GPT Actions warm-up.
+    return _ok({"ok": True, "service": "jarvis-bridge", "time": _iso(_utc_now())}, status_code=200)
+
+
 @app.post("/api/v1/jobs/create")
 def create_job(body: CreateJobBody, _: None = Depends(_require_api_key)) -> JSONResponse:
     try:
