@@ -2,7 +2,7 @@ services:
   - type: web
     name: jarvis-mongo-bridge
     runtime: python
-    plan: free
+    plan: starter
     buildCommand: pip install -r bridge/render_api/requirements.txt
     startCommand: uvicorn bridge.render_api.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /healthz
