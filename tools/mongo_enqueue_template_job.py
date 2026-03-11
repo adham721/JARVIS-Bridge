@@ -19,18 +19,21 @@ TEMPLATES: Dict[str, str] = {
     "video_social": "video_social.template.md",
     "ecommerce_pod": "ecommerce_pod.template.md",
     "freelance_services": "freelance_services.template.md",
+    "opportunity_radar": "opportunity_radar.template.md",
 }
 
 DEFAULT_PLATFORMS: Dict[str, str] = {
     "video_social": "youtube,tiktok,instagram,facebook",
     "ecommerce_pod": "etsy,amazon,redbubble",
     "freelance_services": "instagram,facebook,upwork,freelancer",
+    "opportunity_radar": "youtube,tiktok,instagram,facebook,amazon,etsy,redbubble,freelance",
 }
 
 DEFAULT_GOALS: Dict[str, str] = {
     "video_social": "Produce content strategy and prompts that increase reach and conversion.",
     "ecommerce_pod": "Identify profitable product opportunities and listing assets for conversion.",
     "freelance_services": "Build a clear offer and outreach system to acquire qualified clients.",
+    "opportunity_radar": "Find and rank the best opportunities by revenue, speed, and long-term growth using Policy v1.",
 }
 
 
@@ -182,4 +185,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

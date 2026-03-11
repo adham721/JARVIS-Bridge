@@ -10,6 +10,8 @@ This folder contains production-ready `input_markdown` templates for Mongo Bridg
   - For: Etsy, Amazon, Redbubble, print-on-demand, product listing strategy.
 - `freelance_services.template.md`
   - For: service offers, lead generation, outreach scripts, client acquisition.
+- `opportunity_radar.template.md`
+  - For: cross-platform opportunity discovery, scoring, ranking, and decisions.
 
 ## Quick Start (CLI)
 
@@ -21,6 +23,16 @@ python tools/mongo_enqueue_template_job.py `
   --template video_social `
   --niche "cat podcast content" `
   --platforms "youtube,tiktok,instagram,facebook" `
+  --target-market us
+```
+
+Opportunity Radar job:
+
+```powershell
+python tools/mongo_enqueue_template_job.py `
+  --project opportunity_radar_os `
+  --template opportunity_radar `
+  --niche "cross-platform high-revenue opportunity discovery" `
   --target-market us
 ```
 
@@ -53,4 +65,3 @@ Each template supports these placeholders:
 3. Enqueue job.
 4. Run `Start <project_id>` from Custom GPT.
 5. Review stored packet and iterate.
-
