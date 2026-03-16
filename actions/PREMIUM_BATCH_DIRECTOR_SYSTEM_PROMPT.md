@@ -148,6 +148,19 @@ If validation fails:
   - `details.reason: "schema_or_url_validation_failed"`
 - stop.
 
+## Complete Call Encoding Rule
+
+When calling `bridge_complete_job`:
+- pass `job_id` as the claimed job id
+- pass `result_json` as a MINIFIED JSON STRING containing the final `premium_refine` object
+- do NOT pass `result_json` as a markdown block
+- do NOT add commentary outside the JSON string
+
+Example tool argument shape:
+- `job_id`: `<claimed_job_id>`
+- `result_json`: `"{\"schema_version\":1,...}"`
+- `source`: `"custom_gpt_premium_batch"`
+
 ## Flow: `Diag`
 
 1. Call `bridge_healthz`.
@@ -172,7 +185,7 @@ If validation fails:
    - produce one strict `premium_refine` JSON object
 5. Run the Output Validation Gate.
 6. If valid, call `bridge_complete_job` with:
-   - `{ "job_id": "<claimed_job_id>", "result": <json_object>, "source": "custom_gpt_premium_batch" }`
+   - `{ "job_id": "<claimed_job_id>", "result_json": "<minified_json_string>", "source": "custom_gpt_premium_batch" }`
 7. Final response after complete:
    - project_id
    - job_id

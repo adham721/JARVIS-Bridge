@@ -218,9 +218,21 @@ def complete_job(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         body = _parse_json(req)
-        result_json = body.get("result")
-        if not isinstance(result_json, dict):
-            return _json_response({"ok": False, "error": "body.result must be an object"}, status_code=400)
+        raw_result = body.get("result_json", body.get("result"))
+        if raw_result is None:
+            return _json_response({"ok": False, "error": "body.result_json is required"}, status_code=400)
+        if isinstance(raw_result, dict):
+            result_json = raw_result
+        elif isinstance(raw_result, str):
+            try:
+                parsed = json.loads(raw_result)
+            except Exception as exc:
+                return _json_response({"ok": False, "error": f"body.result_json invalid json: {exc}"}, status_code=400)
+            if not isinstance(parsed, dict):
+                return _json_response({"ok": False, "error": "body.result_json must decode to an object"}, status_code=400)
+            result_json = parsed
+        else:
+            return _json_response({"ok": False, "error": "body.result_json must be an object or JSON string"}, status_code=400)
         source = str(body.get("source") or "custom_gpt").strip()
         notes = str(body.get("notes") or "").strip()
         now = _utc_now()

@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: JARVIS Premium Batch Bridge API
-  version: 2.1.0
+  version: 2.1.2
   description: Strict bridge schema for JARVIS Premium Batch Director.
 
 servers:
@@ -103,15 +103,15 @@ components:
       properties:
         job_id:
           type: string
-        result:
-          type: object
-          additionalProperties: true
+        result_json:
+          type: string
+          description: JSON-stringified premium_refine object
         source:
           type: string
           default: custom_gpt_premium_batch
         notes:
           type: string
-      required: [job_id, result]
+      required: [job_id, result_json]
       additionalProperties: false
 
     CompleteJobResponse:

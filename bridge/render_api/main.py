@@ -370,11 +370,12 @@ def complete_job_inline(body: Dict[str, Any] = Body(default_factory=dict), _: No
         raw_job_id = str(body.get("job_id") or "").strip()
         if not raw_job_id:
             return _err("job_id is required", status_code=400)
-        if "result" not in body:
-            return _err("result is required", status_code=400)
+        raw_result = body.get("result_json", body.get("result"))
+        if raw_result is None:
+            return _err("result_json is required", status_code=400)
         return _complete_job_internal(
             raw_job_id=raw_job_id,
-            result_obj=_coerce_result_object(body.get("result")),
+            result_obj=_coerce_result_object(raw_result),
             source=str(body.get("source") or "custom_gpt"),
             notes=str(body.get("notes") or ""),
         )
