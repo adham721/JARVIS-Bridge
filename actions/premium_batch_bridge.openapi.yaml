@@ -1,0 +1,317 @@
+openapi: 3.1.0
+info:
+  title: JARVIS Premium Batch Bridge API
+  version: 2.1.0
+  description: Strict bridge schema for JARVIS Premium Batch Director.
+
+servers:
+  - url: https://jarvis-mongo-bridge.onrender.com
+
+components:
+  securitySchemes:
+    jarvis_api_key:
+      type: apiKey
+      in: header
+      name: x-jarvis-key
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        error:
+          type: string
+      required: [ok, error]
+      additionalProperties: true
+
+    HealthzResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        service:
+          type: string
+        time:
+          type: string
+        message:
+          type: string
+      required: [ok]
+      additionalProperties: true
+
+    JobMeta:
+      type: object
+      properties:
+        packet_id:
+          type: string
+        batch_window:
+          type: string
+        prompt_markdown_path:
+          type: string
+        objective:
+          type: string
+        primary_opportunity_title:
+          type: string
+        primary_opportunity_score:
+          type: number
+      additionalProperties: true
+
+    JobPayload:
+      type: object
+      properties:
+        job_id:
+          type: string
+        project_id:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+        input_markdown:
+          type: string
+        meta:
+          $ref: "#/components/schemas/JobMeta"
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        claimed_at:
+          type: string
+        lock_expires_at:
+          type: string
+      required: [job_id, project_id, status, type, input_markdown]
+      additionalProperties: true
+
+    NextJobResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        project_id:
+          type: string
+        has_job:
+          type: boolean
+        job:
+          oneOf:
+            - $ref: "#/components/schemas/JobPayload"
+            - type: "null"
+      required: [ok, project_id, has_job, job]
+      additionalProperties: true
+
+    CompleteJobRequest:
+      type: object
+      properties:
+        job_id:
+          type: string
+        result:
+          type: object
+          additionalProperties: true
+        source:
+          type: string
+          default: custom_gpt_premium_batch
+        notes:
+          type: string
+      required: [job_id, result]
+      additionalProperties: false
+
+    CompleteJobResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        job_id:
+          type: string
+        packet_id:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
+      required: [ok, job_id, status]
+      additionalProperties: true
+
+    FailJobRequest:
+      type: object
+      properties:
+        job_id:
+          type: string
+        error:
+          type: string
+        details:
+          type: object
+          properties:
+            reason:
+              type: string
+            job_type:
+              type: string
+            validation_errors:
+              type: array
+              items:
+                type: string
+          additionalProperties: true
+      required: [job_id, error]
+      additionalProperties: false
+
+    FailJobResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        job_id:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
+      required: [ok, job_id, status]
+      additionalProperties: true
+
+security:
+  - jarvis_api_key: []
+
+paths:
+  /api/v1/healthz:
+    get:
+      operationId: bridge_healthz
+      summary: Lightweight health check
+      security: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthzResponse"
+
+  /api/v1/jobs/next:
+    get:
+      operationId: bridge_get_next_job
+      summary: Claim next queued job for project, optionally filtered by type
+      parameters:
+        - name: project_id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: lock_for_seconds
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 900
+      responses:
+        "200":
+          description: Job payload or empty
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NextJobResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/v1/jobs/complete:
+    post:
+      operationId: bridge_complete_job
+      summary: Complete job and store result
+      x-openai-isConsequential: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompleteJobRequest"
+      responses:
+        "200":
+          description: Completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompleteJobResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/v1/jobs/fail:
+    post:
+      operationId: bridge_fail_job
+      summary: Mark job as failed
+      x-openai-isConsequential: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FailJobRequest"
+      responses:
+        "200":
+          description: Failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailJobResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"

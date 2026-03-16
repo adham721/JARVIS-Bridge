@@ -7,7 +7,7 @@ from functools import lru_cache
 from typing import Any, Dict
 
 from bson import ObjectId
-from fastapi import Body, Depends, FastAPI, Header, HTTPException
+from fastapi import Body, Depends, FastAPI, Header, HTTPException, Query
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from pymongo import ASCENDING, MongoClient, ReturnDocument
@@ -109,6 +109,7 @@ def _require_api_key(x_jarvis_key: str | None = Header(default=None)) -> None:
 class CreateJobBody(BaseModel):
     project_id: str
     input_markdown: str
+    type: str = "intel_research"
     source: str = "bridge_api"
     meta: Dict[str, Any] = Field(default_factory=dict)
 
@@ -263,9 +264,10 @@ def create_job(body: CreateJobBody, _: None = Depends(_require_api_key)) -> JSON
             return _err("input_markdown is required", status_code=400)
 
         now = _utc_now()
+        job_type = str(body.type or "intel_research").strip() or "intel_research"
         doc = {
             "project_id": project_id,
-            "type": "intel_research",
+            "type": job_type,
             "status": "queued",
             "source": str(body.source or "bridge_api").strip() or "bridge_api",
             "input_markdown": input_markdown,
@@ -288,11 +290,17 @@ def create_job(body: CreateJobBody, _: None = Depends(_require_api_key)) -> JSON
 
 
 @app.get("/api/v1/jobs/next")
-def next_job(project_id: str = "", lock_for_seconds: int = 900, _: None = Depends(_require_api_key)) -> JSONResponse:
+def next_job(
+    project_id: str = "",
+    type: str = Query(default="", alias="type"),
+    lock_for_seconds: int = 900,
+    _: None = Depends(_require_api_key),
+) -> JSONResponse:
     try:
         project_id = str(project_id or "").strip()
         if not project_id:
             return _err("project_id query param is required", status_code=400)
+        job_type = str(type or "").strip()
 
         now = _utc_now()
         lock_for = max(60, int(lock_for_seconds or _int_env("JARVIS_BRIDGE_JOB_LOCK_SECONDS", 900)))
@@ -313,6 +321,8 @@ def next_job(project_id: str = "", lock_for_seconds: int = 900, _: None = Depend
                 },
             ],
         }
+        if job_type:
+            query["type"] = job_type
         update = {
             "$set": {
                 "status": "processing",
@@ -327,7 +337,14 @@ def next_job(project_id: str = "", lock_for_seconds: int = 900, _: None = Depend
             sort=[("created_at", ASCENDING)],
             return_document=ReturnDocument.AFTER,
         )
-        return _ok({"ok": True, "project_id": project_id, "job": _job_public(doc)})
+        return _ok(
+            {
+                "ok": True,
+                "project_id": project_id,
+                "has_job": bool(doc),
+                "job": _job_public(doc),
+            }
+        )
     except Exception as e:
         return _err(f"{type(e).__name__}: {e}", status_code=500)
 

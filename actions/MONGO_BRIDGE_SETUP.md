@@ -46,6 +46,7 @@ Routes:
 - `GET /api/v1/health`
 - `POST /api/v1/jobs/create`
 - `GET /api/v1/jobs/next?project_id=...`
+- `GET /api/v1/jobs/next?project_id=...&type=premium_batch_gpt`
 - `POST /api/v1/jobs/{job_id}/complete`
 - `POST /api/v1/jobs/{job_id}/fail`
 
@@ -97,13 +98,15 @@ python tools/set_mongo_bridge_server_url.py --url "https://<your-service>.onrend
 
 ## 4) Custom GPT Action (Bridge)
 
-Import:
+Legacy import:
 
 - `actions/mongo_intel_bridge.openapi.yaml`
-
-Use system instructions:
-
 - `actions/MULTI_PROJECT_MONGO_BRIDGE_GPT_SYSTEM_PROMPT.md`
+
+Premium Batch Director import:
+
+- `actions/premium_batch_bridge.openapi.yaml`
+- `actions/PREMIUM_BATCH_DIRECTOR_SYSTEM_PROMPT.md`
 
 ## 5) Local quick checks
 
@@ -164,6 +167,20 @@ python tools/mongo_bridge_cli.py complete --job-id <JOB_ID> --result-path path\\
 # Mark job failed
 python tools/mongo_bridge_cli.py fail --job-id <JOB_ID> --error "schema_validation_failed"
 ```
+
+### E2) Sync V2 premium jobs into bridge queue
+
+This is a transitional path while `V2` still uses the existing bridge-backed Custom GPT.
+
+```powershell
+.\run_local_v2.ps1 -Mode v2-prepare-batch -BatchWindow 2026-03-16-am
+.\run_local_v2.ps1 -Mode v2-sync-bridge -BatchWindow 2026-03-16-am
+```
+
+This queues `premium_batch_gpt` jobs into the bridge with:
+- `type=premium_batch_gpt`
+- `project_id=<project_id>`
+- prompt markdown from the V2 batch bundle
 
 ### F) Ingest completed packets into tasks immediately
 

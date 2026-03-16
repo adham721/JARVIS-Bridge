@@ -125,6 +125,7 @@ def create_job(req: func.HttpRequest) -> func.HttpResponse:
         body = _parse_json(req)
         project_id = str(body.get("project_id") or "").strip()
         input_markdown = str(body.get("input_markdown") or "").strip()
+        job_type = str(body.get("type") or "intel_research").strip() or "intel_research"
         source = str(body.get("source") or "bridge_api").strip()
         meta = body.get("meta") if isinstance(body.get("meta"), dict) else {}
         if not project_id:
@@ -135,7 +136,7 @@ def create_job(req: func.HttpRequest) -> func.HttpResponse:
         now = _utc_now()
         doc = {
             "project_id": project_id,
-            "type": "intel_research",
+            "type": job_type,
             "status": "queued",
             "source": source,
             "input_markdown": input_markdown,
@@ -166,6 +167,7 @@ def next_job(req: func.HttpRequest) -> func.HttpResponse:
     project_id = str(req.params.get("project_id") or "").strip()
     if not project_id:
         return _json_response({"ok": False, "error": "project_id query param is required"}, status_code=400)
+    job_type = str(req.params.get("type") or "").strip()
 
     try:
         lock_for = _int_env("JARVIS_BRIDGE_JOB_LOCK_SECONDS", 900)
@@ -181,6 +183,8 @@ def next_job(req: func.HttpRequest) -> func.HttpResponse:
             "project_id": project_id,
             "$or": [{"status": "queued"}, {"status": "new"}],
         }
+        if job_type:
+            query["type"] = job_type
         update = {
             "$set": {
                 "status": "processing",
@@ -196,8 +200,8 @@ def next_job(req: func.HttpRequest) -> func.HttpResponse:
             return_document=ReturnDocument.AFTER,
         )
         if not doc:
-            return _json_response({"ok": True, "project_id": project_id, "job": None}, status_code=200)
-        return _json_response({"ok": True, "project_id": project_id, "job": _job_public(doc)}, status_code=200)
+            return _json_response({"ok": True, "project_id": project_id, "has_job": False, "job": None}, status_code=200)
+        return _json_response({"ok": True, "project_id": project_id, "has_job": True, "job": _job_public(doc)}, status_code=200)
     except Exception as e:
         return _json_response({"ok": False, "error": f"{type(e).__name__}: {e}"}, status_code=500)
 
